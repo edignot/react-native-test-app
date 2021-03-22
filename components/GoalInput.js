@@ -30,7 +30,14 @@ const GoalInput = ({ setGoal, isModalVisible, setIsModalVisible }) => {
           onChangeText={goalInputHandler}
           value={enteredGoal}
         />
-        <Button title="add" onPress={addGoalHandler} />
+        <View style={styles.buttons}>
+          <Button title="ADD" onPress={addGoalHandler} />
+          <Button
+            title="CANCEL"
+            color="#d2d2d2"
+            onPress={() => setIsModalVisible(!isModalVisible)}
+          />
+        </View>
       </View>
     </Modal>
   )
@@ -46,6 +53,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     justifyContent: "center",
     flex: 1,
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 })
 
