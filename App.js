@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import GoalItem from "./components/GoalItem"
+import GoalInput from "./components/GoalInput"
 import {
   Button,
   StyleSheet,
@@ -14,33 +15,14 @@ export default function App() {
   const [enteredGoal, setEnteredGoal] = useState("")
   const [goals, setGoal] = useState([])
 
-  const goalInputHandler = (input) => {
-    setEnteredGoal(input)
-  }
-
-  const addGoalHandler = () => {
-    if (enteredGoal) {
-      setGoal((currentGoals) => [
-        ...currentGoals,
-        { key: Math.random().toString(), value: enteredGoal },
-      ])
-      setEnteredGoal("")
-    } else {
-      alert("Please enter goal first")
-    }
-  }
-
   return (
     <View style={styles.screen}>
-      <View>
-        <TextInput
-          placeholder="enter"
-          style={styles.inputContainer}
-          onChangeText={goalInputHandler}
-          value={enteredGoal}
-        />
-        <Button title="add" onPress={addGoalHandler} />
-      </View>
+      <GoalInput
+        enteredGoal={enteredGoal}
+        setEnteredGoal={setEnteredGoal}
+        goals={goals}
+        setGoal={setGoal}
+      />
       <View>
         <FlatList
           data={goals}
@@ -56,12 +38,6 @@ const styles = StyleSheet.create({
     height: "100%",
     padding: 20,
     paddingTop: 80,
-  },
-  inputContainer: {
-    borderColor: "#bebebe",
-    borderWidth: 2,
-    padding: 10,
-    borderRadius: 50,
   },
 })
 
