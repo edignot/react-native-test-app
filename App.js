@@ -1,5 +1,13 @@
 import React, { useState } from "react"
-import { Button, StyleSheet, Text, View, TextInput } from "react-native"
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  ScrollView,
+  FlatList,
+} from "react-native"
 
 export default function App() {
   const [enteredGoal, setEnteredGoal] = useState("")
@@ -10,11 +18,13 @@ export default function App() {
   }
 
   const addGoalHandler = () => {
-    setGoal([...goals, enteredGoal])
-    setEnteredGoal("")
+    if (enteredGoal) {
+      setGoal((currentGoals) => [...currentGoals, enteredGoal])
+      setEnteredGoal("")
+    } else {
+      alert("Please enter goal first")
+    }
   }
-
-  const displayedGoals = goals.map((goal) => <Button title={goal} />)
 
   return (
     <View style={styles.screen}>
@@ -27,23 +37,40 @@ export default function App() {
         />
         <Button title="add" onPress={addGoalHandler} />
       </View>
-      <View>{displayedGoals}</View>
+      <View>
+        <FlatList
+          data={goals}
+          renderItem={(itemData) => (
+            <View style={styles.listItem}>
+              <Text>{itemData.item}</Text>
+            </View>
+          )}
+        />
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   screen: {
-    borderWidth: 1,
-    borderColor: "red",
     height: "100%",
-    justifyContent: "center",
+    padding: 20,
+    paddingTop: 80,
   },
   inputContainer: {
     borderColor: "#bebebe",
     borderWidth: 2,
     padding: 10,
     borderRadius: 50,
+  },
+  listItem: {
+    borderColor: "#bebebe",
+    backgroundColor: "#eee",
+    borderWidth: 2,
+    padding: 10,
+    borderRadius: 50,
+    alignItems: "center",
+    marginBottom: 10,
   },
 })
 
@@ -54,3 +81,6 @@ const styles = StyleSheet.create({
 // default flex direction column
 // justifyContent - positions flex items on the main axis
 // alignItems - positions flex items on the cross axis
+// screen is not scrollable by default
+// ScrollView - for content that you cannot guarantee to fit on the screen, might be inefficient because it renders all the elements in advance, not great for long lists
+// FlatList - for infinite lists, alternative to ScrollView
