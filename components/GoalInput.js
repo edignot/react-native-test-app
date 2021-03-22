@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { View, TextInput, Button, StyleSheet } from "react-native"
+import { View, TextInput, Button, StyleSheet, Modal } from "react-native"
 
-const GoalInput = ({ setGoal }) => {
+const GoalInput = ({ setGoal, isModalVisible, setIsModalVisible }) => {
   const [enteredGoal, setEnteredGoal] = useState("")
 
   const goalInputHandler = (input) => {
@@ -15,30 +15,37 @@ const GoalInput = ({ setGoal }) => {
         { key: Math.random().toString(), value: enteredGoal },
       ])
       setEnteredGoal("")
+      setIsModalVisible(!isModalVisible)
     } else {
       alert("Please enter goal first")
     }
   }
 
   return (
-    <View>
-      <TextInput
-        placeholder="enter"
-        style={styles.inputContainer}
-        onChangeText={goalInputHandler}
-        value={enteredGoal}
-      />
-      <Button title="add" onPress={addGoalHandler} />
-    </View>
+    <Modal visible={isModalVisible} animationType="slide" style>
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="enter"
+          style={styles.input}
+          onChangeText={goalInputHandler}
+          value={enteredGoal}
+        />
+        <Button title="add" onPress={addGoalHandler} />
+      </View>
+    </Modal>
   )
 }
 
 const styles = StyleSheet.create({
-  inputContainer: {
+  input: {
     borderColor: "#bebebe",
     borderWidth: 2,
     padding: 10,
     borderRadius: 50,
+  },
+  inputContainer: {
+    justifyContent: "center",
+    flex: 1,
   },
 })
 
