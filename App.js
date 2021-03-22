@@ -1,32 +1,27 @@
 import React, { useState } from "react"
 import GoalItem from "./components/GoalItem"
 import GoalInput from "./components/GoalInput"
-import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  ScrollView,
-  FlatList,
-} from "react-native"
+import { StyleSheet, View, FlatList } from "react-native"
 
 export default function App() {
-  const [enteredGoal, setEnteredGoal] = useState("")
   const [goals, setGoal] = useState([])
+
+  const removeGoal = (goalId) => {
+    const filteredGoals = goals.filter((goal) => goal.key !== goalId)
+    setGoal((currentGaols) => [...filteredGoals])
+  }
 
   return (
     <View style={styles.screen}>
-      <GoalInput
-        enteredGoal={enteredGoal}
-        setEnteredGoal={setEnteredGoal}
-        goals={goals}
-        setGoal={setGoal}
-      />
+      <GoalInput goals={goals} setGoal={setGoal} />
       <View>
         <FlatList
           data={goals}
-          renderItem={(itemData) => <GoalItem>{itemData.item.value}</GoalItem>}
+          renderItem={(itemData) => (
+            <GoalItem removeGoal={removeGoal} id={itemData.item.key}>
+              {itemData.item.value}
+            </GoalItem>
+          )}
         />
       </View>
     </View>
@@ -52,3 +47,4 @@ const styles = StyleSheet.create({
 // ScrollView - for content that you cannot guarantee to fit on the screen, might be inefficient because it renders all the elements in advance, not great for long lists
 // FlatList - for infinite lists, alternative to ScrollView / flatlist has data and tenderItem must have props / better performance than a scrollview
 // custom components - use React Native or other custom components to built them
+// Touchable component - non visible, bu registers touch on the children you wrap it around

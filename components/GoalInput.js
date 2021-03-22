@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import { View, TextInput, Button, StyleSheet } from "react-native"
 
-const GoalInput = ({ enteredGoal, setEnteredGoal, setGoal }) => {
+const GoalInput = ({ setGoal }) => {
+  const [enteredGoal, setEnteredGoal] = useState("")
+
   const goalInputHandler = (input) => {
     setEnteredGoal(input)
   }
